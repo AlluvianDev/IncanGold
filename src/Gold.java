@@ -1,6 +1,12 @@
-public class Gold extends Treasure{
-    //Gold's value is 10
-
-    private int value = 10;
+public class Gold extends Treasure {
     private int amount = 45;
+
+    public Gold() {
+        super(10); // Call Treasure's constructor and set value to 10
+    }
+
+    @Override
+    public String toString() {
+        return "Gold value: " + getValue() + ", Amount: " + amount;
+    }
 }
