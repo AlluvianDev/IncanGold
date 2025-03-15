@@ -6,17 +6,12 @@ public class TreasureBox extends Bag<QuestCard>{
     }
 
     public void addToTreasureBox(QuestCard card){
-        add(card);
-    }
-
-    public void displayItems(){
-        int count = 0;
-        System.out.println("Your Treasure Box:");
-        for (QuestCard card : treasureCards){
-            count += 1;
-            System.out.println(card);
+        if (add(card)) {
+            System.out.println(card + " added to TreasureBox.");
+            System.out.println("TreasureBox now contains: " + getCurrentSize() + " items.\n");
+        } else {
+            System.out.println("TreasureBox is full.");
         }
-        System.out.printf("You have %d treasure cards.",count);
     }
 
 }

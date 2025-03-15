@@ -1,12 +1,14 @@
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
-    private TreasureBox treasurebox = new TreasureBox();
-    private HazardBox hazardbox = new HazardBox();
+    private final TreasureBox treasurebox = new TreasureBox();
+    private final HazardBox hazardbox = new HazardBox();
+    private final Player player = new Player();
     private int numberOfRounds = 5;
-    private Player player;
+    //private Player player;
     private Box box;
     private Chest chest;
     private int currentRound = 1;
@@ -20,72 +22,30 @@ public class Game {
     }
 
     public void claimTreasures(TreasureBox treasureBox) {
-
+        //if player wins, add money values of treasures to player balance
+        for (int i = 0; i < treasurebox.getCurrentSize(); i++){
+             TreasureCard currentCard = (TreasureCard) treasurebox.toArray()[i];
+            System.out.println(currentCard);
+        }
     }
 
     public void sortCardsIntoBoxes(QuestCard card){
         if (card instanceof TreasureCard){
             treasurebox.addToTreasureBox(card);
-            System.out.println("TreasureCard added to TreasureBox.\n");
         }
         else if (card instanceof HazardCard){
             hazardbox.addToHazardBox(card);
-            System.out.println("HazardCard added to HazardBox.\n");
         }
         else {
             System.out.println("An error occurred in Game.java .");
         }
     }
+    public void displayBoxes() {
+        System.out.println("TreasureBox contains:");
+        treasurebox.displayItems(); //
 
-    public int roll() throws InterruptedException {
-        RolledDice diceLog = new RolledDice();
-        Random dice = new Random(); //Make an array to log dice rolls.
-        int roll ;
-        //0-29 dice roll decides which Questcard will be pulled out of Box. 15 hazardcards or 15 treasurecards.
-        //if a treasurecard is pulled, in rounds 1-2-3-4-5, these many treasures will be in a chest and given to player.(Amount to be determined.)
-        //Turquoise: 33, 36, 39, 42, 45 (1 card of each amount)
-        //Obsidian: 18, 21, 24, 27, 30 (1 card of each amount)
-        //Gold: 3, 6, 9, 12, 15 (1 card of each amount)
-        //if a hazardcard is pulled,
-        //
-        System.out.println("Rolling dice..."); //Add delay of 1-2 seconds after rolling
-        roll = dice.nextInt(0,30);
-        System.out.printf("You rolled %d",roll + 1);
-        diceLog.add(roll + 1); // for player to see not indexing but real dice values.
-        TimeUnit.MILLISECONDS.sleep(1500); //1.5 seconds of sleep
-        return roll;
-    }
-
-    public void play() throws InterruptedException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\nWould you like to roll the dice(press ENTER)?: ");
-        scanner.nextLine();
-
-        for (int i = 0; i < 3; i++) {
-            int roll = roll();
-            QuestCard card = processRoll(roll);
-            System.out.println("\nYou draw a " + card);
-            TimeUnit.MILLISECONDS.sleep(1000);
-            sortCardsIntoBoxes(card);
-        }
-        System.out.printf("\nRound %d is complete!",currentRound);
-        currentRound += 1;
-        if (currentRound > numberOfRounds){ //game over. calculate
-            System.out.println("\nThe game has ended. Calculating score...");
-            treasurebox.displayItems();
-            hazardbox.displayItems();
-
-            int treasureCount = treasurebox.getCurrentSize();
-            int hazardCount = hazardbox.getCurrentSize();
-            treasurebox.clear();
-            hazardbox.clear();
-            if (hazardCount > treasureCount){
-                System.out.println("You died and lost all your loot!");
-            }
-            else{
-                //
-            }
-        }
+        System.out.println("HazardBox contains:");
+        hazardbox.displayItems();
     }
 
     public QuestCard processRoll(int roll){
@@ -95,6 +55,42 @@ public class Game {
         }
         return null;  // Return null if roll is invalid
     }
+
+    public void play() throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nWould you like to roll the dice(press ENTER)?: ");
+        scanner.nextLine();
+
+        for (int i = 0; i < 3; i++) {
+            //System.out.println(Arrays.toString(box.getBox()));
+            int roll = player.rollDice();
+            QuestCard card = processRoll(roll);
+            System.out.println("\nYou draw a " + card);
+            TimeUnit.MILLISECONDS.sleep(1000);
+            sortCardsIntoBoxes(card);
+
+        }
+        System.out.printf("\nRound %d is complete!",currentRound);
+        currentRound += 1;
+        if (currentRound > numberOfRounds){ //game over. calculate
+            System.out.println("\nThe game has ended. Calculating score...");
+
+            int treasureCount = treasurebox.getCurrentSize();
+            int hazardCount = hazardbox.getCurrentSize();
+
+            displayBoxes(); // display both boxes
+            //treasurebox.clear();
+            //hazardbox.clear();
+            if (hazardCount > treasureCount){
+                System.out.println("You died and lost all your loot!");
+            }
+            else{
+                claimTreasures(treasurebox);
+            }
+        }
+    }
+
+
     }
 
 

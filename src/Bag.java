@@ -111,11 +111,14 @@ public class Bag<T> implements IBag<T>{
 
     @Override
     public void displayItems() {
-        StringBuilder string = new StringBuilder();
-        for(int i = 0; i < size; i++ ) {
-            string.append(array[i]).append(",");
+        if (size == 0) {
+            System.out.println("Bag is empty.");
+            return;
         }
-        System.out.println(string);
+        System.out.println("Contents of the bag:");
+        for (int i = 0; i < size; i++) {
+            System.out.println("Item " + (i + 1) + ": " + array[i]);
+        }
     }
 
     @Override
