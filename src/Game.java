@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
@@ -6,7 +7,7 @@ public class Game {
     private Player player;
     private Box box;
     private Chest chest;
-
+    private int currentRound = 1;
 
     public Game(){
         this.box = new Box();
@@ -52,9 +53,25 @@ public class Game {
         return roll;
     }
 
-    public void play() {
+    public void play() throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nWould you like to roll the dice(press ENTER)?: ");
+        scanner.nextLine();
 
+        for (int i = 0; i < 3; i++) {
+            int roll = roll();
+            QuestCard card = processRoll(roll);
+            System.out.println("\nYou draw a " + card + "\n");
+            TimeUnit.MILLISECONDS.sleep(1000);
+            //game.sortCardsIntoBoxes(card);
+        }
+        System.out.printf("\nRound %d is complete!",currentRound);
+        currentRound += 1;
+        if (currentRound == 6){
+            System.out.println("\nThe game has ended. Calculating score...");
+        }
     }
+
     public QuestCard processRoll(int roll){
         //use roll integer to return either treasurecard or hazardcard from Box.
         if (roll >= 0 && roll < 30) {

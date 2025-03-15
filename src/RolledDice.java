@@ -6,6 +6,7 @@ public class RolledDice {
     public RolledDice(){
         this.array = new Object[capacity];
     }
+
     public RolledDice(int capacity){
         this.capacity = capacity;
         this.array = new Object[capacity];
