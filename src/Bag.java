@@ -32,7 +32,6 @@ public class Bag<T> implements IBag<T>{
         for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
         }
-
         array[size - 1] = null; // Null out the last position
         size--; // Reduce size after shifting
 
@@ -41,46 +40,84 @@ public class Bag<T> implements IBag<T>{
 
     @Override
     public boolean remove(T anEntry) {
+        for(int i = 0; i < size; i++){
+            if(array[i].equals(anEntry)){
+                for(int j = 0; j < size - i - 1; j++){
+                    array[i + j] = array[i + j + 1];
+                }
+                array[size - 1] = null;
+                size--;
+                break;
+            }
+
+        }
         return false;
     }
 
     @Override
     public T remove() {
+
         return null;
     }
 
     @Override
     public int getFrequencyOf(T anEntry) {
-        return 0;
+        int frequency = 0;
+        for (int i = 0; i < size ; i++){
+            if (array[i].equals(anEntry)){
+                frequency += 1;
+            }
+        }
+        return frequency;
     }
 
     @Override
     public int getIndexOf(T anEntry) {
-        return 0;
+        for (int i = 0; i < size ; i++){
+            if (array[i].equals(anEntry)){
+                return i; //found index
+            }
+        }
+        return -1; // not found
     }
 
     @Override
     public boolean contains(T anEntry) {
-        return false;
+        for (int i = 0; i < size ; i++){
+            if (array[i].equals(anEntry)){
+                return true; //contains
+            }
+        }
+        return false; //doesn't contain
     }
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < size ; i++){
+            array[i] = null;
+        }
     }
 
     @Override
     public void displayItems() {
-
+        String string = "";
+        for(int i = 0; i < size; i++ ) {
+            string += array[i] + ",";
+        }
+        System.out.println(string);
     }
 
     @Override
     public int getCurrentSize() {
-        return 0;
+        return size;
     }
 
     @Override
     public T[] toArray() {
-        return null;
+
+            T[] result = (T[]) new Object[size];
+            System.arraycopy(array, 0, result, 0, size);
+            return result;
+        }
     }
-}
+
