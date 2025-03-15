@@ -20,10 +20,23 @@ public class Bag<T> implements IBag<T>{
         return size >= capacity; //return true if full
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
     public T removeByIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
 
-        return null;
+        T removedElement = (T) array[index]; // Store the element to return
+
+        // Shift elements left
+        for (int i = index; i < size - 1; i++) {
+            array[i] = array[i + 1];
+        }
+
+        array[size - 1] = null; // Null out the last position
+        size--; // Reduce size after shifting
+
+        return removedElement;
     }
 
     @Override
