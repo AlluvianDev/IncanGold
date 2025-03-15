@@ -20,17 +20,20 @@ public class Game {
     public void claimTreasures(TreasureBox treasureBox) {
 
     }
+
     public void sortCardsIntoBoxes(QuestCard card){
         TreasureBox treasurebox = new TreasureBox();
         HazardBox hazardbox = new HazardBox();
-        if (card.equals("TreasureCard")){
+        if (card instanceof TreasureCard){
             treasurebox.addToTreasureBox(card);
+            System.out.println("TreasureCard added to TreasureBox.");
         }
-        else if (card.equals("HazardCard")){
+        else if (card instanceof HazardCard){
             hazardbox.addToHazardBox(card);
+            System.out.println("HazardCard added to HazardBox.");
         }
         else {
-            System.out.println("An error occured in Game.java .");
+            System.out.println("An error occurred in Game.java .");
         }
     }
 
@@ -63,7 +66,7 @@ public class Game {
             QuestCard card = processRoll(roll);
             System.out.println("\nYou draw a " + card + "\n");
             TimeUnit.MILLISECONDS.sleep(1000);
-            //game.sortCardsIntoBoxes(card);
+            sortCardsIntoBoxes(card);
         }
         System.out.printf("\nRound %d is complete!",currentRound);
         currentRound += 1;
