@@ -3,6 +3,8 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
+    private TreasureBox treasurebox = new TreasureBox();
+    private HazardBox hazardbox = new HazardBox();
     private int numberOfRounds = 5;
     private Player player;
     private Box box;
@@ -22,15 +24,13 @@ public class Game {
     }
 
     public void sortCardsIntoBoxes(QuestCard card){
-        TreasureBox treasurebox = new TreasureBox();
-        HazardBox hazardbox = new HazardBox();
         if (card instanceof TreasureCard){
             treasurebox.addToTreasureBox(card);
-            System.out.println("TreasureCard added to TreasureBox.");
+            System.out.println("TreasureCard added to TreasureBox.\n");
         }
         else if (card instanceof HazardCard){
             hazardbox.addToHazardBox(card);
-            System.out.println("HazardCard added to HazardBox.");
+            System.out.println("HazardCard added to HazardBox.\n");
         }
         else {
             System.out.println("An error occurred in Game.java .");
@@ -64,19 +64,31 @@ public class Game {
         for (int i = 0; i < 3; i++) {
             int roll = roll();
             QuestCard card = processRoll(roll);
-            System.out.println("\nYou draw a " + card + "\n");
+            System.out.println("\nYou draw a " + card);
             TimeUnit.MILLISECONDS.sleep(1000);
             sortCardsIntoBoxes(card);
         }
         System.out.printf("\nRound %d is complete!",currentRound);
         currentRound += 1;
-        if (currentRound == 6){
+        if (currentRound > numberOfRounds){ //game over. calculate
             System.out.println("\nThe game has ended. Calculating score...");
+            treasurebox.displayItems();
+            hazardbox.displayItems();
+
+            int treasureCount = treasurebox.getCurrentSize();
+            int hazardCount = hazardbox.getCurrentSize();
+            treasurebox.clear();
+            hazardbox.clear();
+            if (hazardCount > treasureCount){
+                System.out.println("You died and lost all your loot!");
+            }
+            else{
+                //
+            }
         }
     }
 
     public QuestCard processRoll(int roll){
-        //use roll integer to return either treasurecard or hazardcard from Box.
         if (roll >= 0 && roll < 30) {
             QuestCard[] cards = box.getBox();
             return cards[roll];  // Return the card at the rolled index
