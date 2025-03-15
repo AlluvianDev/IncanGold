@@ -1,23 +1,28 @@
 public class Bag<T> implements IBag<T>{
-
+    int size;
+    int capacity = 30;
+    Object[] array;
 
     @Override
     public boolean add(T newEntry) {
+        array[size] = newEntry;
+        size++;
         return false;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0; //return true if empty
     }
 
     @Override
     public boolean isFull() {
-        return false;
+        return size >= capacity; //return true if full
     }
 
     @Override
     public T removeByIndex(int index) {
+
         return null;
     }
 
