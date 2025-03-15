@@ -100,9 +100,9 @@ public class Bag<T> implements IBag<T>{
 
     @Override
     public void displayItems() {
-        String string = "";
+        StringBuilder string = new StringBuilder();
         for(int i = 0; i < size; i++ ) {
-            string += array[i] + ",";
+            string.append(array[i]).append(",");
         }
         System.out.println(string);
     }
@@ -114,7 +114,6 @@ public class Bag<T> implements IBag<T>{
 
     @Override
     public T[] toArray() {
-
             T[] result = (T[]) new Object[size];
             System.arraycopy(array, 0, result, 0, size);
             return result;
