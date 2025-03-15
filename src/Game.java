@@ -6,6 +6,7 @@ public class Game {
     private Player player;
     private Box box;
     private Chest chest;
+    Box boxQuestCards = new Box();
 
     public void initializeGameComponents() {
 
@@ -38,4 +39,11 @@ public class Game {
     public void play() {
 
     }
+    public QuestCard processRoll(int roll){
+        //use roll integer to return either treasurecard or hazardcard from Box.
+        QuestCard[] cards = boxQuestCards.getBox();
+        return cards[roll];
+    }
+
+
 }
