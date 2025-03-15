@@ -16,7 +16,7 @@ public class Game {
     }
 
 
-    public void roll() throws InterruptedException {
+    public int roll() throws InterruptedException {
         RolledDice diceLog = new RolledDice();
         Random dice = new Random(); //Make an array to log dice rolls.
         int roll = 0;
@@ -32,7 +32,7 @@ public class Game {
         System.out.printf("You rolled %d",roll + 1);
         diceLog.add(roll + 1); // for player to see not indexing but real dice values.
         TimeUnit.MILLISECONDS.sleep(1500); //1.5 seconds of sleep
-
+        return roll;
     }
 
     public void play() {

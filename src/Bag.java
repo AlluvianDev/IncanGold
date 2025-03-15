@@ -1,5 +1,6 @@
 public class Bag<T> implements IBag<T>{
 
+
     @Override
     public boolean add(T newEntry) {
         return false;
