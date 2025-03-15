@@ -1,13 +1,24 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class Bag<T> implements IBag<T>{
-    int size;
+    int size = 0;
     int capacity = 30;
     Object[] array;
 
+    @SuppressWarnings("unchecked")
+    public Bag(Class<T> clazz){
+        this.array = (T[]) Array.newInstance(clazz, capacity);
+    }
+
     @Override
     public boolean add(T newEntry) {
+        if (isFull()) {
+            return false;
+        }
         array[size] = newEntry;
         size++;
-        return false;
+        return true;
     }
 
     @Override
@@ -112,11 +123,10 @@ public class Bag<T> implements IBag<T>{
         return size;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
     public T[] toArray() {
-            T[] result = (T[]) new Object[size];
-            System.arraycopy(array, 0, result, 0, size);
-            return result;
-        }
+        return (T[]) Arrays.copyOf(array, size);
     }
+
+}
 

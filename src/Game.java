@@ -4,12 +4,12 @@ import java.util.concurrent.TimeUnit;
 public class Game {
     private int numberOfRounds = 5;
     private Player player;
-    private final Box box;
+    private Box box;
     private Chest chest;
-    Box boxQuestCards = new Box();
+
 
     public Game(){
-        box = new Box();
+        this.box = new Box();
         box.initializeBox();
     }
     public void initializeGameComponents() {
@@ -19,7 +19,19 @@ public class Game {
     public void claimTreasures(TreasureBox treasureBox) {
 
     }
-
+    public void sortCardsIntoBoxes(QuestCard card){
+        TreasureBox treasurebox = new TreasureBox();
+        HazardBox hazardbox = new HazardBox();
+        if (card.equals("TreasureCard")){
+            treasurebox.addToTreasureBox(card);
+        }
+        else if (card.equals("HazardCard")){
+            hazardbox.addToHazardBox(card);
+        }
+        else {
+            System.out.println("An error occured in Game.java .");
+        }
+    }
 
     public int roll() throws InterruptedException {
         RolledDice diceLog = new RolledDice();
@@ -46,7 +58,8 @@ public class Game {
     public QuestCard processRoll(int roll){
         //use roll integer to return either treasurecard or hazardcard from Box.
         if (roll >= 0 && roll < 30) {
-            return box.getBox()[roll];  // Return the card at the rolled index
+            QuestCard[] cards = box.getBox();
+            return cards[roll];  // Return the card at the rolled index
         }
         return null;  // Return null if roll is invalid
     }

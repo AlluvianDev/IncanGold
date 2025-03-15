@@ -4,10 +4,9 @@ import java.util.concurrent.TimeUnit;
 
 public class GameApp {
     public static void main(String[] args) throws InterruptedException {
-
         Game game = new Game();
-        Box box = new Box();
         Scanner scanner = new Scanner(System.in);
+
         String playerKeyPress;
         String drawnCard;
         boolean gameLoop = true;
@@ -21,15 +20,8 @@ public class GameApp {
             int roll = game.roll();
             QuestCard card = game.processRoll(roll);
             System.out.println("\nYou draw a " + card);
+            //game.sortCardsIntoBoxes(card);
 
-            if (card.equals("TreasureCard"))
-            {
-
-            }
-            else //HazardCard
-            {
-
-            }
 
             System.out.println("Round 1 is complete!");
 
