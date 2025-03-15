@@ -37,7 +37,7 @@ public class Game {
     public int roll() throws InterruptedException {
         RolledDice diceLog = new RolledDice();
         Random dice = new Random(); //Make an array to log dice rolls.
-        int roll = 0;
+        int roll ;
         //0-29 dice roll decides which Questcard will be pulled out of Box. 15 hazardcards or 15 treasurecards.
         //if a treasurecard is pulled, in rounds 1-2-3-4-5, these many treasures will be in a chest and given to player.(Amount to be determined.)
         //Turquoise: 33, 36, 39, 42, 45 (1 card of each amount)
