@@ -4,10 +4,14 @@ import java.util.concurrent.TimeUnit;
 public class Game {
     private int numberOfRounds = 5;
     private Player player;
-    private Box box;
+    private final Box box;
     private Chest chest;
     Box boxQuestCards = new Box();
 
+    public Game(){
+        box = new Box();
+        box.initializeBox();
+    }
     public void initializeGameComponents() {
 
     }
@@ -41,9 +45,12 @@ public class Game {
     }
     public QuestCard processRoll(int roll){
         //use roll integer to return either treasurecard or hazardcard from Box.
-        QuestCard[] cards = boxQuestCards.getBox();
-        return cards[roll];
+        if (roll >= 0 && roll < 30) {
+            return box.getBox()[roll];  // Return the card at the rolled index
+        }
+        return null;  // Return null if roll is invalid
+    }
     }
 
 
-}
+

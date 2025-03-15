@@ -3,4 +3,7 @@ public class Turqoise extends Treasure{
     private int value = 1;
     private int amount = 195;
 
+    public Turqoise(int value) {
+        super(value);
+    }
 }
