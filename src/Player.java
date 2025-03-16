@@ -1,11 +1,16 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Player {
     private Tent tent;
     private TreasureBox treasureBox;
     private HazardBox hazardBox;
     private String name;
-    private int score;
+    private int score = 0;
+
+    public void setTent(Tent tent) {
+        this.tent = tent;
+    }
 
     public int rollDice() {
         RolledDice diceLog = new RolledDice();
@@ -20,11 +25,35 @@ public class Player {
     }
 
     public int calculateScore() {
-        return 0;
-    }
+        for (int i = 0; i < tent.getCurrentSize(); i++){
+                Treasure treasure = (Treasure) tent.toArray()[i];
+                if(treasure.getType().equals("Turquoise"))
+                {
+                    score += treasure.getValue(); // *1
+                }
+                else if (treasure.getType().equals("Obsidian"))
+                {
+                    score += treasure.getValue() * 5;
+                }
+                else if(treasure.getType().equals("Gold"))
+                {
+                    score += treasure.getValue() * 10;
+                }
+                else
+                {
+                    System.out.println("Unknown type of treasure owned.");
+                }
 
+        }
+        return score;
+    }
+    public void setName(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("What is your name, player?: ");
+        this.name = scanner.nextLine();
+    }
     public String toString() {
-        return null;
+        return "Player: " + name + " | Score: " + score;
     }
 
 }

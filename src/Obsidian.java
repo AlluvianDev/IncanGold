@@ -3,7 +3,8 @@ public class Obsidian extends Treasure{
     private int value = 5;
     private int amount = 120;
 
-    public Obsidian(int value) {
-        super(value);
+
+    public Obsidian(String name, int value) {
+        super(name, value);
     }
 }

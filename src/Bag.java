@@ -10,11 +10,27 @@ public class Bag<T> implements IBag<T>{
     public Bag(Class<T> clazz){
         this.array = (T[]) Array.newInstance(clazz, capacity);
     }
+    public void grow(){
+        int newCapacity = (int)(capacity * 2);
+        Object[] newArray = new Object[newCapacity];
+
+        if (size >= 0) System.arraycopy(array, 0, newArray, 0, size);
+        capacity = newCapacity;
+        array = newArray;
+    }
+    public void shrink(){
+        int newCapacity = (int)(capacity / 2);
+        Object[] newArray = new Object[newCapacity];
+
+        if (size >= 0) System.arraycopy(array, 0, newArray, 0, size);
+        capacity = newCapacity;
+        array = newArray;
+    }
 
     @Override
     public boolean add(T newEntry) {
         if (isFull()) {
-            return false;
+            grow();
         }
         array[size] = newEntry;
         size++;
@@ -46,6 +62,9 @@ public class Bag<T> implements IBag<T>{
         array[size - 1] = null; // Null out the last position
         size--; // Reduce size after shifting
 
+        if(size <= (capacity/3)){
+            shrink();
+        }
         return removedElement;
     }
 
@@ -61,6 +80,9 @@ public class Bag<T> implements IBag<T>{
                 break;
             }
 
+        }
+        if(size <= (capacity/3)){
+            shrink();
         }
         return false;
     }
@@ -107,6 +129,7 @@ public class Bag<T> implements IBag<T>{
         for (int i = 0; i < size ; i++){
             array[i] = null;
         }
+        size = 0;
     }
 
     @Override

@@ -1,12 +1,18 @@
 public class Treasure {
     private int value;
+    private String type;
 
-    public Treasure(int value) {
+    public Treasure(String name,int value) {
         this.value = value;
+        this.type = name;
     }
 
     public int getValue() {
         return value;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setValue(int value) {
@@ -15,6 +21,6 @@ public class Treasure {
 
     @Override
     public String toString() {
-        return "Treasure value: " + value;
+        return type + "\nTreasure value: " + value;
     }
 }

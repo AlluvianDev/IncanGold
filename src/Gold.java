@@ -1,9 +1,10 @@
 public class Gold extends Treasure {
     private int amount = 45;
 
-    public Gold() {
-        super(10); // Call Treasure's constructor and set value to 10
+    public Gold(String name, int value) {
+        super(name, value);
     }
+
 
     @Override
     public String toString() {
