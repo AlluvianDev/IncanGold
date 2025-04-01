@@ -8,6 +8,21 @@ public class Player {
     private String name;
     private int score = 0;
 
+    public Player(String name) {
+        this.name = name;
+        this.treasureBox = new TreasureBox();
+        this.hazardBox = new HazardBox();
+        this.tent = new Tent();
+        this.score = 0;
+    }
+    public TreasureBox getTreasureBox() {
+        return treasureBox;
+    }
+
+    public HazardBox getHazardBox() {
+        return hazardBox;
+    }
+
     public void setTent(Tent tent) {
         this.tent = tent;
     }
@@ -43,14 +58,8 @@ public class Player {
                 {
                     System.out.println("Unknown type of treasure owned.");
                 }
-
         }
         return score;
-    }
-    public void setName(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("What is your name, player?: ");
-        this.name = scanner.nextLine();
     }
     public String toString() {
         return "Player: " + name + " | Score: " + score;

@@ -2,7 +2,12 @@ import java.util.Scanner;
 
 public class GameApp {
     public static void main(String[] args) throws InterruptedException {
-        Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your username: ");
+        String username = scanner.nextLine();
+        Player player = new Player(username);
+
+        Game game = new Game(player);
 
         boolean gameLoop = true;
         System.out.println("Welcome to Incan Gold.");

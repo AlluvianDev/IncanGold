@@ -7,7 +7,7 @@ public class Box extends Bag<QuestCard>{
     }
     public void initializeBox(){
 
-        // Add 15 TreasureCard's
+        /* Add 15 TreasureCard's
          for (int i = 0; i < 15; i++){
              add(new TreasureCard("TreasureCard"));
          }
@@ -31,10 +31,22 @@ public class Box extends Bag<QuestCard>{
         // Add 3 Snake
         for (int i = 0; i < 3; i++){
             add(new HazardCard("Snake"));
+        }*/
+        //System.out.println("Box initialized");
+
+        // Add 15 TreasureCards
+        for (int i = 0; i < 15; i++) {
+            add(new TreasureCard());
         }
 
-
-        System.out.println("Box initialized");
+        // Add 3 of each Hazard
+        for (int i = 0; i < 3; i++) {
+            add(new Spider());
+            add(new Mummy());
+            add(new Fire());
+            add(new Goblin());
+            add(new Snake());
+        }
     }
     public QuestCard[] getBox() {
         return toArray();

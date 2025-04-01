@@ -13,17 +13,4 @@ public class HazardBox extends Bag<QuestCard>{
                 System.out.println("HazardBox is full.");
             }
         }
-
-        /*public void displayItems(){
-            int count = 0;
-            System.out.println("Your Hazard Box:");
-
-            for (QuestCard card : hazardCards)
-            {
-                count += 1;
-                System.out.println(card);
-            }
-            System.out.printf("You have %d hazard cards.",count);
-        }*/
-
 }

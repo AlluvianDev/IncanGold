@@ -5,10 +5,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
-
-    private final TreasureBox treasurebox = new TreasureBox();
-    private final HazardBox hazardbox = new HazardBox();
-    private final Player player = new Player();
+    private final Player player;
     private final Random random = new Random();
     private int numberOfRounds = 5;
     private Tent tent;
@@ -16,15 +13,13 @@ public class Game {
     private Chest chest;
     private int currentRound = 1;
 
-    public Game() {
+    public Game(Player player) {
+        this.player = player;
         this.tent = new Tent();
         this.box = new Box();
         this.chest = new Chest();
-        player.setName();
 
         player.setTent(tent);
-        //initializeGameComponents();
-
     }
 
     public void initializeGameComponents() {
@@ -66,20 +61,21 @@ public class Game {
 
     public void sortCardsIntoBoxes(QuestCard card) {
         if (card instanceof TreasureCard) {
-            treasurebox.addToTreasureBox(card);
+            player.getTreasureBox().add(card);
         } else if (card instanceof HazardCard) {
-            hazardbox.addToHazardBox(card);
+            player.getHazardBox().add(card);
         } else {
             System.out.println("An error occurred in Game.java .");
         }
+        //treasurebox.addToTreasureBox(card);  hazardbox.addToHazardBox(card);
     }
 
     public void displayBoxes() {
         System.out.println("\nTreasureBox contains:");
-        treasurebox.displayItems(); //
+        player.getTreasureBox().displayItems(); //
 
         System.out.println("\nHazardBox contains:");
-        hazardbox.displayItems();
+        player.getHazardBox().displayItems();
     }
 
     public QuestCard processRoll(int roll) {
@@ -121,7 +117,8 @@ public class Game {
         for (int i = 0; i < 3; i++) {
             int roll = player.rollDice();
             QuestCard card = processRoll(roll);
-            System.out.println("\nYou draw a " + card);
+            TimeUnit.MILLISECONDS.sleep(1000);
+            System.out.println("\nYou draw a " + card + "\n");
             TimeUnit.MILLISECONDS.sleep(1000);
             sortCardsIntoBoxes(card);
 
@@ -131,18 +128,15 @@ public class Game {
         if (currentRound > numberOfRounds) { //game over. calculate
             System.out.println("\nThe game has ended. Calculating score...");
 
-            int treasureCount = treasurebox.getCurrentSize();
-            int hazardCount = hazardbox.getCurrentSize();
-
             displayBoxes(); // display both boxes
-            if (hazardCount > treasureCount) {
-                claimTreasures(treasurebox);
-                //System.out.println("You died and lost all your loot!");
+            if ((player.getHazardBox().getCurrentSize() < player.getTreasureBox().getCurrentSize())) {
+                claimTreasures(player.getTreasureBox());
             } else {
-                claimTreasures(treasurebox);
+                System.out.println("You died and lost all your loot!");
+                endGame();
             }
-            treasurebox.clear();
-            hazardbox.clear();
+            player.getTreasureBox().clear();
+            player.getHazardBox().clear();
             currentRound = 1;
         }
     }

@@ -1,12 +1,8 @@
 public class TreasureCard extends QuestCard{
+    private Treasure treasure;
+    private int value;
 
-    public TreasureCard(String name) {
-        super(name);
+    public String toString() {
+        return "TreasureCard";
     }
-
-    /*
-    public TreasureCard(String name, int value) {
-        super(name);
-    }
-    */
 }

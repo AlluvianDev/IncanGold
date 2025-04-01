@@ -3,8 +3,9 @@ public class Treasure {
     private String type;
 
     public Treasure(String name,int value) {
-        this.value = value;
         this.type = name;
+        this.value = value;
+
     }
 
     public int getValue() {
@@ -13,10 +14,6 @@ public class Treasure {
 
     public String getType() {
         return type;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     @Override
