@@ -31,27 +31,55 @@ public class Game {
         Object[] treasureChestObjects = chest.toArray(); //toArray gives us Object[], we turn that into Treasure[] like this
         Treasure[] treasureChest = Arrays.copyOf(treasureChestObjects, treasureChestObjects.length, Treasure[].class);
         //if player wins, add money values of treasures to player balance
-        for (int i = 0; i < treasurebox.getCurrentSize(); i++) { //for each treasurecard, give player a Treasure from Chest
+        for (int i = 0; i < treasurebox.getCurrentSize(); i++) { //for each treasure card, give player a Treasure from Chest
             int treasureNumber = 0;
             TreasureCard currentCard = (TreasureCard) treasurebox.toArray()[i];
-            System.out.println("\n" + currentCard + " #" + (i + 1) + " is drawn from your TreasureBox. ");
-            System.out.println("Opening chest...");
+            int value = currentCard.getValue();
+            System.out.println("Treasure " + (i+1) + ": " + currentCard);
+            switch (currentCard.getTreasure()) {
+                case Turquoise turquoise -> {
+                    for (; value == 0; value--) {
+                        for (int j = 0; j < chest.getCurrentSize(); j++) {
+                            if (chest.get(j) instanceof Turquoise) {
+                                tent.add(chest.get(j));
+                                chest.remove(chest.get(j));
+                                j--; // Adjust index after removal
+                            }
+                        }
+                    }
+                }
+                case Obsidian obsidian -> {
+                    for (; value == 0; value--) {
+                        for (int j = 0; j < chest.getCurrentSize(); j++) {
+                            if (chest.get(j) instanceof Obsidian) {
+                                tent.add(chest.get(j));
+                                chest.remove(chest.get(j));
+                                j--; // Adjust index after removal
+                            }
+                        }
+                    }
+                }
+                case Gold gold -> {
+                    for (; value == 0; value--) {
+                        for (int j = 0; j < chest.getCurrentSize(); j++) {
+                            if (chest.get(j) instanceof Gold) {
+                                tent.add(chest.get(j));
+                                chest.remove(chest.get(j));
+                                j--; // Adjust index after removal
+                            }
+                        }
+                    }
+                }
+                case null, default -> System.out.println("An error occurred.");
+            }
             TimeUnit.MILLISECONDS.sleep(3000);
-            treasureNumber = random.nextInt(15 - i); //decrement 15 each loop so we dont get indexoutofbounds exception
-
-            Treasure playerLoot = treasureChest[treasureNumber];
-            System.out.println("You get: " + playerLoot);
-
-            //send to tent
-            tent.add(playerLoot);
             System.out.println("Item has been sent to your tent.\n");
 
-            chest.removeByIndex(treasureNumber); //remove the obtained treasure from chest
-
         }
+
         //after loop
         System.out.println(tent);
-
+        System.out.println("This is the tent.");
         //send tent to player
         player.setTent(tent);
 
@@ -67,7 +95,6 @@ public class Game {
         } else {
             System.out.println("An error occurred in Game.java .");
         }
-        //treasurebox.addToTreasureBox(card);  hazardbox.addToHazardBox(card);
     }
 
     public void displayBoxes() {

@@ -1,11 +1,10 @@
 import java.util.Random;
-import java.util.Scanner;
 
 public class Player {
     private Tent tent;
-    private TreasureBox treasureBox;
-    private HazardBox hazardBox;
-    private String name;
+    private final TreasureBox treasureBox;
+    private final HazardBox hazardBox;
+    private final String name;
     private int score = 0;
 
     public Player(String name) {
@@ -41,16 +40,17 @@ public class Player {
 
     public int calculateScore() {
         for (int i = 0; i < tent.getCurrentSize(); i++){
-                Treasure treasure = (Treasure) tent.toArray()[i];
-                if(treasure.getType().equals("Turquoise"))
+                //Treasure treasure = (Treasure) tent.toArray()[i];
+                Treasure treasure = tent.toArray()[i];
+                if(treasure instanceof Turquoise)
                 {
                     score += treasure.getValue(); // *1
                 }
-                else if (treasure.getType().equals("Obsidian"))
+                else if (treasure instanceof Obsidian)
                 {
                     score += treasure.getValue() * 5;
                 }
-                else if(treasure.getType().equals("Gold"))
+                else if(treasure instanceof Gold)
                 {
                     score += treasure.getValue() * 10;
                 }

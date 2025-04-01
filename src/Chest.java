@@ -4,21 +4,15 @@ public class Chest extends Bag<Treasure>{
     }
 
     public void initializeChest() {
-
-        // Add 5 Turqoise
-        int[] turquoiseValues = {33,36,39,42,45};
-        for (int value: turquoiseValues) {
-            add(new Treasure("Turquoise",value));
+        // Add Turquoise, Obsidian, and Gold to the Chest
+        for (int i = 0; i < 195; i++) {
+            add(new Turquoise());
         }
-        // Add 5 Obsidian
-        int[] obsidianValues = {18,21,24,27,30};
-        for (int value: obsidianValues) {
-            add(new Treasure("Obsidian",value));
+        for (int i = 0; i < 120; i++) {
+            add(new Obsidian());
         }
-        // Add 5 Gold
-        int[] goldValues = {3,6,9,12,15};
-        for (int value: goldValues) {
-            add(new Treasure("Gold",value));
+        for (int i = 0; i < 45; i++) {
+            add(new Gold());
         }
     }
 }

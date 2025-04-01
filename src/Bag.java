@@ -87,11 +87,22 @@ public class Bag<T> implements IBag<T>{
         return false;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
     public T remove() {
+        if (isEmpty()) {
+            return null;
+        }
 
-        return null;
+        T removedElement = (T) array[size - 1];
+        array[size - 1] = null;
+        size--;
+
+        if (size <= (capacity/3)) {
+            shrink();
+        }
+        return removedElement;
     }
+
 
     @Override
     public int getFrequencyOf(T anEntry) {
@@ -112,6 +123,14 @@ public class Bag<T> implements IBag<T>{
             }
         }
         return -1; // not found
+    }
+
+    @SuppressWarnings("unchecked")
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+        return (T) array[index];
     }
 
     @Override
@@ -138,7 +157,6 @@ public class Bag<T> implements IBag<T>{
             System.out.println("Bag is empty.");
             return;
         }
-        System.out.println("Contents of the bag:");
         for (int i = 0; i < size; i++) {
             System.out.println("Item " + (i + 1) + ": " + array[i]);
         }
