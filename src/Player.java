@@ -19,9 +19,11 @@ public class Player {
 
     public int calculateScore() {
         score = 0;
-        Treasure[] treasures = tent.toArray();
-        for (Treasure treasure : treasures) {
-            if (treasure != null) {
+        // Fixed: Use Object[] instead of Treasure[] and safely cast each element
+        Object[] treasureObjects = tent.toArray();
+        for (Object obj : treasureObjects) {
+            if (obj instanceof Treasure) {
+                Treasure treasure = (Treasure) obj;
                 score += treasure.getValue();
             }
         }

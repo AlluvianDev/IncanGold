@@ -132,9 +132,8 @@ public class Bag<T> implements IBag<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public T[] toArray() {
-        T[] result = (T[]) new Object[numberOfEntries];
+    public Object[] toArray() {  // Return Object[] instead of T[]
+        Object[] result = new Object[numberOfEntries];
         for (int i = 0; i < numberOfEntries; i++) {
             result[i] = bag[i];
         }
