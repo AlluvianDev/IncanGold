@@ -40,13 +40,12 @@ public class Game {
             System.out.println("Treasure " + (i+1) + ": " + currentCard);
             switch (currentCard.getTreasure()) {
                 case Turquoise turquoise -> {
-                    for (; value == 0; value--) {
+                    for (; value > 0; value--) {
                         for (int j = 0; j < chest.getCurrentSize(); j++) {
-                            if (chest.get(j) instanceof Turquoise) {
-                                System.out.println("blackmale" + chest.get(j));
+                            if (chest.get(j) instanceof Turquoise) { //chest.get(j) = Turquoise
                                 player.getTent().add(chest.get(j));
                                 chest.remove(chest.get(j));
-                                j--; // Adjust index after removal
+                                //j--; // Adjust index after removal
                             }
                         }
                     }
@@ -57,7 +56,7 @@ public class Game {
                             if (chest.get(j) instanceof Obsidian) {
                                 player.getTent().add(chest.get(j));
                                 chest.remove(chest.get(j));
-                                j--; // Adjust index after removal
+                                //j--; // Adjust index after removal
                             }
                         }
                     }
@@ -68,7 +67,7 @@ public class Game {
                             if (chest.get(j) instanceof Gold) {
                                 player.getTent().add(chest.get(j));
                                 chest.remove(chest.get(j));
-                                j--; // Adjust index after removal
+                                //j--; // Adjust index after removal
                             }
                         }
                     }
@@ -114,18 +113,19 @@ public class Game {
                 }
             }
 
-            claimTreasures(player.getTreasureBox());
+
 
             System.out.println("\nPress Enter to start next round...");
             scanner.nextLine();
         }
 
         System.out.println("Game Over!");
+        claimTreasures(player.getTreasureBox());
         System.out.println("Final Score: " + player.calculateScore());
         if (player.getHazardBox().getCurrentSize() > player.getTreasureBox().getCurrentSize()) {
-            System.out.println("You lose the game!");
+            System.out.println("You lose the game " + player.getName() + "!");
         } else {
-            System.out.println("You win the game!");
+            System.out.println("You win the game " + player.getName() + "!");
         }
     }
 }

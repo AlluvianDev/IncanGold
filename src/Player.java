@@ -13,7 +13,9 @@ public class Player {
         this.hazardBox = new HazardBox();
         this.tent = new Tent();
     }
-
+    public String getName(){
+        return name;
+    }
     public TreasureBox getTreasureBox() {
         return treasureBox;
     }
@@ -33,14 +35,15 @@ public class Player {
 
     public int calculateScore() {
         int score = 0;
+        tent.displayItems();
         for (int i = 0; i < tent.getCurrentSize(); i++) {
             Treasure treasure = tent.toArray()[i];
             if (treasure instanceof Turquoise) {
                 score += treasure.getValue();
             } else if (treasure instanceof Obsidian) {
-                score += treasure.getValue();
+                score += treasure.getValue() * 5;
             } else if (treasure instanceof Gold) {
-                score += treasure.getValue();
+                score += treasure.getValue() * 10;
             }
         }
         return score;
