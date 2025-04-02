@@ -1,10 +1,10 @@
-public class HazardCard extends QuestCard{
-
-
+public class HazardCard extends QuestCard {
     public HazardCard(String name) {
         super(name);
     }
-    public void Attack(){
-        System.out.println("You are attacked!");
+
+    @Override
+    public String toString() {
+        return "Hazard Card: " + getName();
     }
 }

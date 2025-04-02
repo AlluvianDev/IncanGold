@@ -11,6 +11,5 @@ public interface IBag<T> {
     public void clear();
     public void displayItems();
     public int getCurrentSize();
-    public T[] toArray();
-
+    public Object[] toArray();
 }

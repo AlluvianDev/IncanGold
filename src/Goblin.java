@@ -1,5 +1,5 @@
-public class Goblin extends HazardCard{
-    public Goblin(String name) {
-        super(name);
+public class Goblin extends HazardCard {
+    public Goblin() {
+        super("Goblin");
     }
 }

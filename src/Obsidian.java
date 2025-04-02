@@ -1,10 +1,10 @@
-public class Obsidian extends Treasure{
-    //Obsidian's value is 5
-    private int value = 5;
-    private int amount = 120;
+public class Obsidian extends Treasure {
+    public Obsidian() {
+        super(5);
+    }
 
-
-    public Obsidian(String name, int value) {
-        super(name, value);
+    @Override
+    public String toString() {
+        return "Obsidian (value: 5)";
     }
 }

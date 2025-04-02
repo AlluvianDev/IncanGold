@@ -1,8 +1,5 @@
-public class Snake extends HazardCard{
-
-    public Snake(String name) {
-        super(name);
+public class Snake extends HazardCard {
+    public Snake() {
+        super("Snake");
     }
-
-
 }
