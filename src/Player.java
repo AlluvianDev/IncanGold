@@ -28,8 +28,7 @@ public class Player {
 
     public int rollDice() {
         Random dice = new Random();
-        int roll = dice.nextInt(30);  // Zar atıyoruz, 0-29 arası
-        return roll;
+        return dice.nextInt(30); // Zar atıyoruz, 0-29 arası
     }
 
     public int calculateScore() {
@@ -39,9 +38,9 @@ public class Player {
             if (treasure instanceof Turquoise) {
                 score += treasure.getValue();
             } else if (treasure instanceof Obsidian) {
-                score += treasure.getValue() * 5;
+                score += treasure.getValue();
             } else if (treasure instanceof Gold) {
-                score += treasure.getValue() * 10;
+                score += treasure.getValue();
             }
         }
         return score;

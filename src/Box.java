@@ -12,17 +12,17 @@ public class Box extends Bag<QuestCard> {
         // Add 5 Turquoise
         int[] turquoiseValues = {33, 36, 39, 42, 45};
         for (int value : turquoiseValues) {
-            add(new TreasureCard(Turquoise, Turquoise.getValue() * value));
+            add(new TreasureCard(Turquoise, value));
         }
 
         int[] obsidianValues = {18, 21, 24, 27, 30};
         for (int value : obsidianValues) {
-            add(new TreasureCard(Obsidian, value * Obsidian.getValue()));
+            add(new TreasureCard(Obsidian, value));
         }
 
         int[] goldValues = {3, 6, 9, 12, 15};
         for (int value : goldValues) {
-            add(new TreasureCard(Gold, value * Gold.getValue()));
+            add(new TreasureCard(Gold, value));
         }
 
         for (int i = 0; i < 3; i++) {

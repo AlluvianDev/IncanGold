@@ -104,6 +104,12 @@ public class Bag<T> implements IBag<T> {
             System.out.println(bagArray[i]);
         }
     }
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+        return bagArray[index];
+    }
 
     @Override
     public int getCurrentSize() {

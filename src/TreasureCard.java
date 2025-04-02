@@ -6,6 +6,12 @@ public class TreasureCard extends QuestCard {
         this.treasure = treasure;
         this.value = value;
     }
+    public int getValue() {
+        return value;
+    }
+    public Treasure getTreasure(){
+        return treasure;
+    }
 
     @Override
     public String toString() {

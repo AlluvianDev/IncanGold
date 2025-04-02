@@ -23,10 +23,58 @@ public class Game {
         return box;
     }
 
-    public void claimTreasures(TreasureBox treasureBox) {
+    /*public void claimTreasures(TreasureBox treasureBox) {
         while (!chest.isEmpty()) {
-            Treasure treasure = (Treasure) chest.remove();
+            Treasure treasure = (Treasure) ;
             player.getTent().add(treasure);
+            chest.remove(treasure);
+
+
+        }
+    }*/
+
+    public void claimTreasures(TreasureBox treasureBox){
+        for (int i = 0; i < treasureBox.getCurrentSize(); i++) { //for each treasure card, give player a Treasure from Chest
+            TreasureCard currentCard = (TreasureCard) treasureBox.toArray()[i];
+            int value = currentCard.getValue();
+            System.out.println("Treasure " + (i+1) + ": " + currentCard);
+            switch (currentCard.getTreasure()) {
+                case Turquoise turquoise -> {
+                    for (; value == 0; value--) {
+                        for (int j = 0; j < chest.getCurrentSize(); j++) {
+                            if (chest.get(j) instanceof Turquoise) {
+                                System.out.println("blackmale" + chest.get(j));
+                                player.getTent().add(chest.get(j));
+                                chest.remove(chest.get(j));
+                                j--; // Adjust index after removal
+                            }
+                        }
+                    }
+                }
+                case Obsidian obsidian -> {
+                    for (; value == 0; value--) {
+                        for (int j = 0; j < chest.getCurrentSize(); j++) {
+                            if (chest.get(j) instanceof Obsidian) {
+                                player.getTent().add(chest.get(j));
+                                chest.remove(chest.get(j));
+                                j--; // Adjust index after removal
+                            }
+                        }
+                    }
+                }
+                case Gold gold -> {
+                    for (; value == 0; value--) {
+                        for (int j = 0; j < chest.getCurrentSize(); j++) {
+                            if (chest.get(j) instanceof Gold) {
+                                player.getTent().add(chest.get(j));
+                                chest.remove(chest.get(j));
+                                j--; // Adjust index after removal
+                            }
+                        }
+                    }
+                }
+                case null, default -> System.out.println("An error occurred.");
+            }
         }
     }
     public void play() {
