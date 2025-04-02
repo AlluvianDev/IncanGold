@@ -1,4 +1,5 @@
 public class Gold extends Treasure {
-    //Gold's value is 10.
-
+    public Gold() {
+        setValue(10); // Gold value is 10
+    }
 }
