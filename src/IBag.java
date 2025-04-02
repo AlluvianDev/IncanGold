@@ -1,5 +1,4 @@
 public interface IBag<T> {
-    //  Generic interface representing a bag data structure. Allows duplicate elements and does not guarantee any specific order.
     public boolean add(T newEntry);
     public boolean isEmpty();
     public boolean isFull();

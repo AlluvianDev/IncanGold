@@ -1,18 +1,18 @@
-public class Chest extends Bag<Treasure>{
-    public Chest() {
-        super(Treasure.class);
-    }
-
+public class Chest extends Bag<Treasure> {
     public void initializeChest() {
-        // Add Turquoise, Obsidian, and Gold to the Chest
+        // Adding 195 Turquoise (value of 1)
         for (int i = 0; i < 195; i++) {
-            add(new Turquoise());
+            this.add(new Turquoise());
         }
+
+        // Adding 120 Obsidian (value of 5)
         for (int i = 0; i < 120; i++) {
-            add(new Obsidian());
+            this.add(new Obsidian());
         }
+
+        // Adding 45 Gold (value of 10)
         for (int i = 0; i < 45; i++) {
-            add(new Gold());
+            this.add(new Gold());
         }
     }
 }

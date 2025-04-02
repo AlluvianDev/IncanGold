@@ -1,171 +1,93 @@
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-
 public class Game {
-    private final Player player;
-    private final Random random = new Random();
-    private int numberOfRounds = 5;
-    private Tent tent;
+    private int numberOfRounds;
+    private Player player;
     private Box box;
     private Chest chest;
-    private int currentRound = 1;
 
-    public Game(Player player) {
-        this.player = player;
-        this.tent = new Tent();
+    public Game(int numberOfRounds, String playerName) {
+        this.numberOfRounds = numberOfRounds;
+        this.player = new Player(playerName);
         this.box = new Box();
         this.chest = new Chest();
-
-        player.setTent(tent);
     }
 
     public void initializeGameComponents() {
-        box.initializeBox(); // DO NOT RE/MOVE THIS, TOTALLY BREAKS
+        box.initializeBox();
         chest.initializeChest();
     }
 
-    public void claimTreasures(TreasureBox treasurebox) throws InterruptedException {
-        // Get the treasures from the chest
-        for (int i = 0; i < treasurebox.getCurrentSize(); i++) { //for each treasure card, give player a Treasure from Chest
-            TreasureCard currentCard = (TreasureCard) treasurebox.toArray()[i];
-            int cardValue = currentCard.getValue();
-            System.out.println("Treasure " + (i+1) + ": " + currentCard);
-            
-            switch (currentCard.getTreasure().getClass().getSimpleName()) {
-                case "Turquoise" -> {
-                    for (int k = 0; k < cardValue; k++) { // Loop for the number of treasures to add
-                        for (int j = 0; j < chest.getCurrentSize(); j++) {
-                            if (chest.get(j) instanceof Turquoise) {
-                                tent.add(chest.get(j));
-                                chest.remove(chest.get(j));
-                                break; // Break after finding one Turquoise
-                            }
+    public void claimTreasures(TreasureBox treasureBox) {
+        while (!treasureBox.isEmpty()) {
+            QuestCard card = treasureBox.remove();
+            if (card instanceof TreasureCard) {
+                TreasureCard treasureCard = (TreasureCard) card;
+                Treasure treasureType = treasureCard.getTreasure();
+                int amount = treasureCard.getAmount();
+
+                for (int i = 0; i < amount; i++) {
+                    if (treasureType instanceof Turquoise) {
+                        if (chest.contains(new Turquoise())) {
+                            chest.remove(new Turquoise());
+                            player.getTent().add(new Turquoise());
+                        }
+                    } else if (treasureType instanceof Obsidian) {
+                        if (chest.contains(new Obsidian())) {
+                            chest.remove(new Obsidian());
+                            player.getTent().add(new Obsidian());
+                        }
+                    } else if (treasureType instanceof Gold) {
+                        if (chest.contains(new Gold())) {
+                            chest.remove(new Gold());
+                            player.getTent().add(new Gold());
                         }
                     }
                 }
-                case "Obsidian" -> {
-                    for (int k = 0; k < cardValue; k++) { // Loop for the number of treasures to add
-                        for (int j = 0; j < chest.getCurrentSize(); j++) {
-                            if (chest.get(j) instanceof Obsidian) {
-                                tent.add(chest.get(j));
-                                chest.remove(chest.get(j));
-                                break; // Break after finding one Obsidian
-                            }
-                        }
-                    }
-                }
-                case "Gold" -> {
-                    for (int k = 0; k < cardValue; k++) { // Loop for the number of treasures to add
-                        for (int j = 0; j < chest.getCurrentSize(); j++) {
-                            if (chest.get(j) instanceof Gold) {
-                                tent.add(chest.get(j));
-                                chest.remove(chest.get(j));
-                                break; // Break after finding one Gold
-                            }
-                        }
-                    }
-                }
-                default -> System.out.println("An error occurred.");
-            }
-            TimeUnit.MILLISECONDS.sleep(3000);
-            System.out.println("Items have been sent to your tent.\n");
-        }
-    
-        // Display tent contents
-        System.out.println(tent);
-        System.out.println("This is the tent.");
-        
-        // Send tent to player
-        player.setTent(tent);
-    }
-
-    public void sortCardsIntoBoxes(QuestCard card) {
-        if (card instanceof TreasureCard) {
-            player.getTreasureBox().add(card);
-        } else if (card instanceof HazardCard) {
-            player.getHazardBox().add(card);
-        } else {
-            System.out.println("An error occurred in Game.java .");
-        }
-    }
-
-    public void displayBoxes() {
-        System.out.println("\nTreasureBox contains:");
-        player.getTreasureBox().displayItems(); //
-
-        System.out.println("\nHazardBox contains:");
-        player.getHazardBox().displayItems();
-    }
-
-    public QuestCard processRoll(int roll) {
-        if (roll >= 0 && roll < 30) {
-            QuestCard[] cards = box.getBox();
-            return cards[roll];  // Return the card at the rolled index
-        }
-        return null;  // Return null if roll is invalid
-    }
-
-    public boolean playAgain() {
-        Scanner scanner = new Scanner(System.in);
-        String userInput;
-
-        while (true) { // Keep asking until a valid input is entered
-            System.out.print("\nWould you like to play again? (yes/no): ");
-            userInput = scanner.nextLine().trim().toLowerCase(Locale.ROOT);
-
-            if (userInput.equalsIgnoreCase("yes")) {
-                return true;
-            } else if (userInput.equalsIgnoreCase("no")) {
-                return false;
-            } else {
-                System.out.println("Invalid input. Please enter 'yes' or 'no'.");
             }
         }
-    }
-
-    public void endGame() {
         player.calculateScore();
-        System.out.println(player);
     }
 
-    public void play() throws InterruptedException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\nWould you like to roll the dice(press ENTER)?: ");
-        scanner.nextLine();
-    
-        for (int i = 0; i < 3; i++) {
-            int roll = player.rollDice();
-            QuestCard card = processRoll(roll);
-            TimeUnit.MILLISECONDS.sleep(1000);
-            System.out.println("\nYou draw a " + card + "\n");
-            TimeUnit.MILLISECONDS.sleep(1000);
-            sortCardsIntoBoxes(card);
-        }
-        
-        System.out.printf("\nRound %d is complete!", currentRound);
-        currentRound++;
-        
-        if (currentRound > numberOfRounds) { // Game over, calculate
-            System.out.println("\nThe game has ended. Calculating score...");
-    
-            displayBoxes(); // Display both boxes
-            if (player.getHazardBox().getCurrentSize() < player.getTreasureBox().getCurrentSize()) {
-                System.out.println("You won! Claiming treasures...");
-                claimTreasures(player.getTreasureBox());
-                endGame(); // Calculate and display final score
-            } else {
-                System.out.println("You died and lost all your loot!");
-                // No need to claim treasures
-                endGame();
+    public void play() {
+        System.out.println("Starting Incan Gold game with " + numberOfRounds + " rounds...");
+        initializeGameComponents();
+
+        for (int round = 1; round <= numberOfRounds; round++) {
+            System.out.println("\n=== Round " + round + " ===");
+
+            // Draw 3 cards in each round
+            for (int i = 0; i < 3; i++) {
+                int index = player.rollDice();
+                QuestCard drawnCard = box.removeByIndex(index);
+
+                // Check if we've run out of cards
+                if (drawnCard == null) {
+                    System.out.println("No more cards in the box!");
+                    continue;
+                }
+
+                System.out.println("Drew: " + drawnCard);
+
+                if (drawnCard instanceof HazardCard) {
+                    player.getHazardBox().add(drawnCard);
+                    System.out.println("Added to HazardBox!");
+                } else if (drawnCard instanceof TreasureCard) {
+                    player.getTreasureBox().add(drawnCard);
+                    System.out.println("Added to TreasureBox!");
+                }
             }
-            
-            // Reset for a potential new game
-            player.getTreasureBox().clear();
-            player.getHazardBox().clear();
-            currentRound = 1;
+        }
+
+        // Game end
+        System.out.println("\n=== Game Over ===");
+        System.out.println("HazardBox size: " + player.getHazardBox().getCurrentSize());
+        System.out.println("TreasureBox size: " + player.getTreasureBox().getCurrentSize());
+
+        if (player.getHazardBox().getCurrentSize() > player.getTreasureBox().getCurrentSize()) {
+            System.out.println("Player loses! More hazards than treasures.");
+        } else {
+            System.out.println("Player wins! Claiming treasures...");
+            claimTreasures(player.getTreasureBox());
+            System.out.println("Final score: " + player.getScore());
         }
     }
 }

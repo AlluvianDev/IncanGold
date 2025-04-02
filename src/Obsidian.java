@@ -1,5 +1,10 @@
 public class Obsidian extends Treasure {
     public Obsidian() {
-        setValue(5); // Obsidian value is 5
+        super(5);
+    }
+
+    @Override
+    public String toString() {
+        return "Obsidian (value: 5)";
     }
 }

@@ -1,5 +1,10 @@
 public class Turquoise extends Treasure {
     public Turquoise() {
-        setValue(1); // Turquoise value is 1
+        super(1);
+    }
+
+    @Override
+    public String toString() {
+        return "Turquoise (value: 1)";
     }
 }

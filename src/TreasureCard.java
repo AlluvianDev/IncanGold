@@ -1,18 +1,23 @@
-public class TreasureCard extends QuestCard{
+public class TreasureCard extends QuestCard {
     private Treasure treasure;
-    private int value;
+    private int amount;
 
-    public TreasureCard(Treasure treasure,int value){
-         this.treasure = treasure;
-         this.value = value;
+    public TreasureCard(String name, Treasure treasure, int amount) {
+        super(name);
+        this.treasure = treasure;
+        this.amount = amount;
     }
-    public int getValue(){
-        return value;
-    }
-    public Treasure getTreasure(){
+
+    public Treasure getTreasure() {
         return treasure;
     }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    @Override
     public String toString() {
-        return treasure + " with the value " + value;
+        return "Treasure Card: " + getName() + " - " + treasure + " - Amount: " + amount;
     }
 }

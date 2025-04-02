@@ -1,7 +1,10 @@
-public class HazardCard extends QuestCard{
+public class HazardCard extends QuestCard {
+    public HazardCard(String name) {
+        super(name);
+    }
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName();
+        return "Hazard Card: " + getName();
     }
 }

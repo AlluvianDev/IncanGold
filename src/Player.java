@@ -1,19 +1,37 @@
-import java.util.Random;
-
 public class Player {
     private Tent tent;
-    private final TreasureBox treasureBox;
-    private final HazardBox hazardBox;
-    private final String name;
-    private int score = 0;
+    private TreasureBox treasureBox;
+    private HazardBox hazardBox;
+    private String name;
+    private int score;
 
     public Player(String name) {
         this.name = name;
+        this.tent = new Tent();
         this.treasureBox = new TreasureBox();
         this.hazardBox = new HazardBox();
-        this.tent = new Tent();
         this.score = 0;
     }
+
+    public int rollDice() {
+        return (int) (Math.random() * 30); // 0-29
+    }
+
+    public int calculateScore() {
+        score = 0;
+        Treasure[] treasures = tent.toArray();
+        for (Treasure treasure : treasures) {
+            if (treasure != null) {
+                score += treasure.getValue();
+            }
+        }
+        return score;
+    }
+
+    public Tent getTent() {
+        return tent;
+    }
+
     public TreasureBox getTreasureBox() {
         return treasureBox;
     }
@@ -22,35 +40,16 @@ public class Player {
         return hazardBox;
     }
 
-    public void setTent(Tent tent) {
-        this.tent = tent;
+    public String getName() {
+        return name;
     }
 
-    public int rollDice() {
-        RolledDice diceLog = new RolledDice();
-        Random dice = new Random(); //Make an array to log dice rolls.
-        int roll ;
-        System.out.println("Rolling dice..."); //Add delay of 1-2 seconds after rolling
-        roll = dice.nextInt(0,30);
-        System.out.printf("You rolled %d",roll + 1);
-        diceLog.add(roll + 1); // for player to see not indexing but real dice values.
-        //TimeUnit.MILLISECONDS.sleep(1500); //1.5 seconds of sleep
-        return roll;
-    }
-
-    public int calculateScore() {
-        score = 0; // Reset score before calculating
-        for (int i = 0; i < tent.getCurrentSize(); i++) {
-            Treasure treasure = tent.get(i);
-            // The value is already set correctly in the Treasure object
-            score += treasure.getValue(); 
-        }
+    public int getScore() {
         return score;
     }
 
-    
+    @Override
     public String toString() {
-        return "Player: " + name + " | Score: " + score;
+        return "Player: " + name + ", Score: " + score;
     }
-
 }
