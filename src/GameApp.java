@@ -6,22 +6,24 @@ public class GameApp {
         System.out.print("Enter your username: ");
         String username = scanner.nextLine();
         Player player = new Player(username);
-
+    
         Game game = new Game(player);
-
+        
         boolean gameLoop = true;
         System.out.println("Welcome to Incan Gold.");
-        while (gameLoop)
-        {
+        
+        while (gameLoop) {
             game.initializeGameComponents();
-            for (int i = 0; i < 5; i++)
-            {
+            
+            // Each game consists of 5 rounds
+            for (int i = 0; i < 5; i++) {
                 game.play();
             }
-            if (!game.playAgain()){
+            
+            // Ask if the player wants to play again
+            if (!game.playAgain()) {
                 gameLoop = false;
-                //calculate score.
-                game.endGame();
+                System.out.println("Thank you for playing Incan Gold!");
             }
         }
     }
