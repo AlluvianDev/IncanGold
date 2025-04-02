@@ -39,28 +39,16 @@ public class Player {
     }
 
     public int calculateScore() {
-        for (int i = 0; i < tent.getCurrentSize(); i++){
-                //Treasure treasure = (Treasure) tent.toArray()[i];
-                Treasure treasure = tent.toArray()[i];
-                if(treasure instanceof Turquoise)
-                {
-                    score += treasure.getValue(); // *1
-                }
-                else if (treasure instanceof Obsidian)
-                {
-                    score += treasure.getValue() * 5;
-                }
-                else if(treasure instanceof Gold)
-                {
-                    score += treasure.getValue() * 10;
-                }
-                else
-                {
-                    System.out.println("Unknown type of treasure owned.");
-                }
+        score = 0; // Reset score before calculating
+        for (int i = 0; i < tent.getCurrentSize(); i++) {
+            Treasure treasure = tent.get(i);
+            // The value is already set correctly in the Treasure object
+            score += treasure.getValue(); 
         }
         return score;
     }
+
+    
     public String toString() {
         return "Player: " + name + " | Score: " + score;
     }
