@@ -33,43 +33,57 @@ public class Game {
         }
     }*/
 
-    public void claimTreasures(TreasureBox treasureBox){
-        for (int i = 0; i < treasureBox.getCurrentSize(); i++) { //for each treasure card, give player a Treasure from Chest
+    public void claimTreasures(TreasureBox treasureBox) {
+        for (int i = 0; i < treasureBox.getCurrentSize(); i++) {
             TreasureCard currentCard = (TreasureCard) treasureBox.toArray()[i];
-            int value = currentCard.getValue();
-            System.out.println("Treasure " + (i+1) + ": " + currentCard);
+            int quantity = currentCard.getTreasureQuantity();
+            System.out.println("Treasure " + (i + 1) + ": " + currentCard);
+            System.out.println("Quantity: " + quantity);
+
             switch (currentCard.getTreasure()) {
                 case Turquoise turquoise -> {
-                    for (; value > 0; value--) {
-                        for (int j = 0; j < chest.getCurrentSize(); j++) {
-                            if (chest.get(j) instanceof Turquoise) { //chest.get(j) = Turquoise
+                    while (quantity > 0) {
+                        boolean found = false;
+                        for (int j = chest.getCurrentSize() - 1; j >= 0; j--) { // Iterate backwards
+                            if (chest.get(j) instanceof Turquoise) {
                                 player.getTent().add(chest.get(j));
-                                chest.remove(chest.get(j));
-                                //j--; // Adjust index after removal
+                                chest.remove(chest.get(j)); // Safe removal
+                                quantity--;
+                                found = true;
+                                break; // Stop after removing one treasure
                             }
                         }
+                        if (!found) break; // Stop if no matching treasure was found
                     }
                 }
                 case Obsidian obsidian -> {
-                    for (; value == 0; value--) {
-                        for (int j = 0; j < chest.getCurrentSize(); j++) {
+                    while (quantity > 0) {
+                        boolean found = false;
+                        for (int j = chest.getCurrentSize() - 1; j >= 0; j--) {
                             if (chest.get(j) instanceof Obsidian) {
                                 player.getTent().add(chest.get(j));
                                 chest.remove(chest.get(j));
-                                //j--; // Adjust index after removal
+                                quantity--;
+                                found = true;
+                                break;
                             }
                         }
+                        if (!found) break;
                     }
                 }
                 case Gold gold -> {
-                    for (; value == 0; value--) {
-                        for (int j = 0; j < chest.getCurrentSize(); j++) {
+                    while (quantity > 0) {
+                        boolean found = false;
+                        for (int j = chest.getCurrentSize() - 1; j >= 0; j--) {
                             if (chest.get(j) instanceof Gold) {
                                 player.getTent().add(chest.get(j));
                                 chest.remove(chest.get(j));
-                                //j--; // Adjust index after removal
+                                quantity--;
+                                found = true;
+                                break;
                             }
                         }
+                        if (!found) break;
                     }
                 }
                 case null, default -> System.out.println("An error occurred.");
@@ -87,7 +101,7 @@ public class Game {
             for (int i = 0; i < 3; i++) {
                 System.out.println("Rolling dice...");
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

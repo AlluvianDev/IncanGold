@@ -10,19 +10,19 @@ public class Box extends Bag<QuestCard> {
         Treasure Obsidian = new Obsidian();
 
         // Add 5 Turquoise
-        int[] turquoiseValues = {33, 36, 39, 42, 45};
-        for (int value : turquoiseValues) {
-            add(new TreasureCard(Turquoise, value));
+        int[] turquoiseQuantities = {33, 36, 39, 42, 45};
+        for (int quantity : turquoiseQuantities) {
+            add(new TreasureCard(Turquoise, quantity));
         }
 
-        int[] obsidianValues = {18, 21, 24, 27, 30};
-        for (int value : obsidianValues) {
-            add(new TreasureCard(Obsidian, value));
+        int[] obsidianQuantities = {18, 21, 24, 27, 30};
+        for (int quantity : obsidianQuantities) {
+            add(new TreasureCard(Obsidian, quantity));
         }
 
-        int[] goldValues = {3, 6, 9, 12, 15};
-        for (int value : goldValues) {
-            add(new TreasureCard(Gold, value));
+        int[] goldQuantities = {3, 6, 9, 12, 15};
+        for (int quantity : goldQuantities) {
+            add(new TreasureCard(Gold, quantity));
         }
 
         for (int i = 0; i < 3; i++) {
