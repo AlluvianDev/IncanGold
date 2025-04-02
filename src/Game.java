@@ -28,63 +28,58 @@ public class Game {
     }
 
     public void claimTreasures(TreasureBox treasurebox) throws InterruptedException {
-        Object[] treasureChestObjects = chest.toArray(); //toArray gives us Object[], we turn that into Treasure[] like this
-        Treasure[] treasureChest = Arrays.copyOf(treasureChestObjects, treasureChestObjects.length, Treasure[].class);
-        //if player wins, add money values of treasures to player balance
+        // Get the treasures from the chest
         for (int i = 0; i < treasurebox.getCurrentSize(); i++) { //for each treasure card, give player a Treasure from Chest
-            int treasureNumber = 0;
             TreasureCard currentCard = (TreasureCard) treasurebox.toArray()[i];
-            int value = currentCard.getValue();
+            int cardValue = currentCard.getValue();
             System.out.println("Treasure " + (i+1) + ": " + currentCard);
-            switch (currentCard.getTreasure()) {
-                case Turquoise turquoise -> {
-                    for (; value == 0; value--) {
+            
+            switch (currentCard.getTreasure().getClass().getSimpleName()) {
+                case "Turquoise" -> {
+                    for (int k = 0; k < cardValue; k++) { // Loop for the number of treasures to add
                         for (int j = 0; j < chest.getCurrentSize(); j++) {
                             if (chest.get(j) instanceof Turquoise) {
                                 tent.add(chest.get(j));
                                 chest.remove(chest.get(j));
-                                j--; // Adjust index after removal
+                                break; // Break after finding one Turquoise
                             }
                         }
                     }
                 }
-                case Obsidian obsidian -> {
-                    for (; value == 0; value--) {
+                case "Obsidian" -> {
+                    for (int k = 0; k < cardValue; k++) { // Loop for the number of treasures to add
                         for (int j = 0; j < chest.getCurrentSize(); j++) {
                             if (chest.get(j) instanceof Obsidian) {
                                 tent.add(chest.get(j));
                                 chest.remove(chest.get(j));
-                                j--; // Adjust index after removal
+                                break; // Break after finding one Obsidian
                             }
                         }
                     }
                 }
-                case Gold gold -> {
-                    for (; value == 0; value--) {
+                case "Gold" -> {
+                    for (int k = 0; k < cardValue; k++) { // Loop for the number of treasures to add
                         for (int j = 0; j < chest.getCurrentSize(); j++) {
                             if (chest.get(j) instanceof Gold) {
                                 tent.add(chest.get(j));
                                 chest.remove(chest.get(j));
-                                j--; // Adjust index after removal
+                                break; // Break after finding one Gold
                             }
                         }
                     }
                 }
-                case null, default -> System.out.println("An error occurred.");
+                default -> System.out.println("An error occurred.");
             }
             TimeUnit.MILLISECONDS.sleep(3000);
-            System.out.println("Item has been sent to your tent.\n");
-
+            System.out.println("Items have been sent to your tent.\n");
         }
-
-        //after loop
+    
+        // Display tent contents
         System.out.println(tent);
         System.out.println("This is the tent.");
-        //send tent to player
+        
+        // Send tent to player
         player.setTent(tent);
-
-        chest.clear();
-        box.clear();
     }
 
     public void sortCardsIntoBoxes(QuestCard card) {
