@@ -135,7 +135,7 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nWould you like to roll the dice(press ENTER)?: ");
         scanner.nextLine();
-
+    
         for (int i = 0; i < 3; i++) {
             int roll = player.rollDice();
             QuestCard card = processRoll(roll);
@@ -143,20 +143,26 @@ public class Game {
             System.out.println("\nYou draw a " + card + "\n");
             TimeUnit.MILLISECONDS.sleep(1000);
             sortCardsIntoBoxes(card);
-
         }
+        
         System.out.printf("\nRound %d is complete!", currentRound);
         currentRound++;
-        if (currentRound > numberOfRounds) { //game over. calculate
+        
+        if (currentRound > numberOfRounds) { // Game over, calculate
             System.out.println("\nThe game has ended. Calculating score...");
-
-            displayBoxes(); // display both boxes
-            if ((player.getHazardBox().getCurrentSize() < player.getTreasureBox().getCurrentSize())) {
+    
+            displayBoxes(); // Display both boxes
+            if (player.getHazardBox().getCurrentSize() < player.getTreasureBox().getCurrentSize()) {
+                System.out.println("You won! Claiming treasures...");
                 claimTreasures(player.getTreasureBox());
+                endGame(); // Calculate and display final score
             } else {
                 System.out.println("You died and lost all your loot!");
+                // No need to claim treasures
                 endGame();
             }
+            
+            // Reset for a potential new game
             player.getTreasureBox().clear();
             player.getHazardBox().clear();
             currentRound = 1;
