@@ -1,4 +1,3 @@
-import java.util.List;
 public class Tent extends Bag<Treasure>{
     public Tent() {
         super(Treasure.class);
@@ -8,6 +7,6 @@ public class Tent extends Bag<Treasure>{
     public String toString() {
         System.out.println("Tent contains:");
         displayItems();
-        return "";
+        return "Tent.displayItems()";
     }
 }

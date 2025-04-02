@@ -1,164 +1,107 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
-public class Bag<T> implements IBag<T>{
-    int size = 0;
-    int capacity = 30;
-    Object[] array;
+public class Bag<T> implements IBag<T> {
+    private T[] bagArray;
+    private int size;
 
-    @SuppressWarnings("unchecked")
-    public Bag(Class<T> clazz){
-        this.array = (T[]) Array.newInstance(clazz, capacity);
-    }
-    public void grow(){
-        int newCapacity = (int)(capacity * 2);
-        Object[] newArray = new Object[newCapacity];
-
-        if (size >= 0) System.arraycopy(array, 0, newArray, 0, size);
-        capacity = newCapacity;
-        array = newArray;
-    }
-    public void shrink(){
-        int newCapacity = (int)(capacity / 2);
-        Object[] newArray = new Object[newCapacity];
-
-        if (size >= 0) System.arraycopy(array, 0, newArray, 0, size);
-        capacity = newCapacity;
-        array = newArray;
+    public Bag(Class<T> clazz) {
+        bagArray = (T[]) java.lang.reflect.Array.newInstance(clazz, 10);
+        size = 0;
     }
 
     @Override
     public boolean add(T newEntry) {
         if (isFull()) {
-            grow();
+            resize();
         }
-        array[size] = newEntry;
-        size++;
+        bagArray[size++] = newEntry;
         return true;
+    }
+
+    private void resize() {
+        bagArray = Arrays.copyOf(bagArray, bagArray.length * 2);
     }
 
     @Override
     public boolean isEmpty() {
-        return size == 0; //return true if empty
+        return size == 0;
     }
 
     @Override
     public boolean isFull() {
-        return size >= capacity; //return true if full
+        return size == bagArray.length;
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
     public T removeByIndex(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Invalid index: " + index);
+            return null;
         }
-
-        T removedElement = (T) array[index]; // Store the element to return
-
-        // Shift elements left
+        T removedItem = bagArray[index];
         for (int i = index; i < size - 1; i++) {
-            array[i] = array[i + 1];
+            bagArray[i] = bagArray[i + 1];
         }
-        array[size - 1] = null; // Null out the last position
-        size--; // Reduce size after shifting
-
-        if(size <= (capacity/3)){
-            shrink();
-        }
-        return removedElement;
+        size--;
+        return removedItem;
     }
 
     @Override
     public boolean remove(T anEntry) {
-        for(int i = 0; i < size; i++){
-            if(array[i].equals(anEntry)){
-                for(int j = 0; j < size - i - 1; j++){
-                    array[i + j] = array[i + j + 1];
-                }
-                array[size - 1] = null;
-                size--;
-                break;
+        for (int i = 0; i < size; i++) {
+            if (bagArray[i].equals(anEntry)) {
+                removeByIndex(i);
+                return true;
             }
-
-        }
-        if(size <= (capacity/3)){
-            shrink();
         }
         return false;
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
     public T remove() {
         if (isEmpty()) {
             return null;
         }
-
-        T removedElement = (T) array[size - 1];
-        array[size - 1] = null;
+        T removedItem = bagArray[size - 1];
         size--;
-
-        if (size <= (capacity/3)) {
-            shrink();
-        }
-        return removedElement;
+        return removedItem;
     }
-
 
     @Override
     public int getFrequencyOf(T anEntry) {
-        int frequency = 0;
-        for (int i = 0; i < size ; i++){
-            if (array[i].equals(anEntry)){
-                frequency += 1;
+        int count = 0;
+        for (int i = 0; i < size; i++) {
+            if (bagArray[i].equals(anEntry)) {
+                count++;
             }
         }
-        return frequency;
+        return count;
     }
 
     @Override
     public int getIndexOf(T anEntry) {
-        for (int i = 0; i < size ; i++){
-            if (array[i].equals(anEntry)){
-                return i; //found index
+        for (int i = 0; i < size; i++) {
+            if (bagArray[i].equals(anEntry)) {
+                return i;
             }
         }
-        return -1; // not found
-    }
-
-    @SuppressWarnings("unchecked")
-    public T get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Invalid index: " + index);
-        }
-        return (T) array[index];
+        return -1;
     }
 
     @Override
     public boolean contains(T anEntry) {
-        for (int i = 0; i < size ; i++){
-            if (array[i].equals(anEntry)){
-                return true; //contains
-            }
-        }
-        return false; //doesn't contain
+        return getIndexOf(anEntry) != -1;
     }
 
     @Override
     public void clear() {
-        for (int i = 0; i < size ; i++){
-            array[i] = null;
-        }
+        Arrays.fill(bagArray, 0, size, null);
         size = 0;
     }
 
     @Override
     public void displayItems() {
-        if (size == 0) {
-            System.out.println("Bag is empty.");
-            return;
-        }
         for (int i = 0; i < size; i++) {
-            System.out.println("Item " + (i + 1) + ": " + array[i]);
+            System.out.println(bagArray[i]);
         }
     }
 
@@ -167,10 +110,8 @@ public class Bag<T> implements IBag<T>{
         return size;
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
     public T[] toArray() {
-        return (T[]) Arrays.copyOf(array, size);
+        return Arrays.copyOf(bagArray, size);
     }
-
 }
-

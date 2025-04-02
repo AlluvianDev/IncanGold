@@ -1,12 +1,13 @@
-public class QuestCard {
-    private String name; //HazardCard or TreasureCard
+public abstract class QuestCard {
+    private String name;
 
-    @Override
-    public String toString() {
+    public String getName() {
         return name;
     }
 
-    public boolean equals(Object obj) {
-        return this == obj;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public abstract String toString();
 }

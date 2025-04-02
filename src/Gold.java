@@ -1,4 +1,10 @@
 public class Gold extends Treasure {
-    //Gold's value is 10.
+    public Gold() {
+        setValue(10);
+    }
 
+    @Override
+    public String toString() {
+        return "Gold (Value: " + getValue() + ")";
+    }
 }

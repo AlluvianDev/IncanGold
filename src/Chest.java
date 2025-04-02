@@ -4,7 +4,6 @@ public class Chest extends Bag<Treasure>{
     }
 
     public void initializeChest() {
-        // Add Turquoise, Obsidian, and Gold to the Chest
         for (int i = 0; i < 195; i++) {
             add(new Turquoise());
         }

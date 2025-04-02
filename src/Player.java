@@ -12,8 +12,8 @@ public class Player {
         this.treasureBox = new TreasureBox();
         this.hazardBox = new HazardBox();
         this.tent = new Tent();
-        this.score = 0;
     }
+
     public TreasureBox getTreasureBox() {
         return treasureBox;
     }
@@ -22,47 +22,32 @@ public class Player {
         return hazardBox;
     }
 
-    public void setTent(Tent tent) {
-        this.tent = tent;
+    public Tent getTent() {
+        return tent;
     }
 
     public int rollDice() {
-        RolledDice diceLog = new RolledDice();
-        Random dice = new Random(); //Make an array to log dice rolls.
-        int roll ;
-        System.out.println("Rolling dice..."); //Add delay of 1-2 seconds after rolling
-        roll = dice.nextInt(0,30);
-        System.out.printf("You rolled %d",roll + 1);
-        diceLog.add(roll + 1); // for player to see not indexing but real dice values.
-        //TimeUnit.MILLISECONDS.sleep(1500); //1.5 seconds of sleep
+        Random dice = new Random();
+        int roll = dice.nextInt(30);  // Zar atıyoruz, 0-29 arası
         return roll;
     }
 
     public int calculateScore() {
-        for (int i = 0; i < tent.getCurrentSize(); i++){
-                //Treasure treasure = (Treasure) tent.toArray()[i];
-                Treasure treasure = tent.toArray()[i];
-                if(treasure instanceof Turquoise)
-                {
-                    score += treasure.getValue(); // *1
-                }
-                else if (treasure instanceof Obsidian)
-                {
-                    score += treasure.getValue() * 5;
-                }
-                else if(treasure instanceof Gold)
-                {
-                    score += treasure.getValue() * 10;
-                }
-                else
-                {
-                    System.out.println("Unknown type of treasure owned.");
-                }
+        int score = 0;
+        for (int i = 0; i < tent.getCurrentSize(); i++) {
+            Treasure treasure = tent.toArray()[i];
+            if (treasure instanceof Turquoise) {
+                score += treasure.getValue();
+            } else if (treasure instanceof Obsidian) {
+                score += treasure.getValue() * 5;
+            } else if (treasure instanceof Gold) {
+                score += treasure.getValue() * 10;
+            }
         }
         return score;
     }
+
     public String toString() {
         return "Player: " + name + " | Score: " + score;
     }
-
 }

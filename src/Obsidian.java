@@ -1,4 +1,10 @@
-public class Obsidian extends Treasure{
-    //Obsidian's value is 5
+public class Obsidian extends Treasure {
+    public Obsidian() {
+        setValue(5);
+    }
 
+    @Override
+    public String toString() {
+        return "Obsidian (Value: " + getValue() + ")";
+    }
 }
