@@ -66,15 +66,3 @@ java GameApp
 
 ```
 
-
-3. 
-**Temizlik:** Kodun okunabilir, tekrardan kaçınan (DRY) ve Java isimlendirme standartlarına uygun olması beklenir.
-
-
-
----
-
-> [!IMPORTANT]
-> Bu proje **CENG112 Data Structures** dersi ödevi kapsamında geliştirilmiştir. İsimlendirme formatı `CENG112_HW1_G05` şeklinde olmalıdır.
-> 
-> 
